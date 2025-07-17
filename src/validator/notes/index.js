@@ -1,4 +1,4 @@
-import {NotePayloadSchema} from "./schema";
+const { NotePayloadSchema } = require('./schema');
 
 const NotesValidator = {
     validatePayload: (payload) => {
