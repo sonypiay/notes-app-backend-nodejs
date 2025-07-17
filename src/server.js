@@ -3,6 +3,7 @@ const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const notes = require('./api/notes');
 const NotesService = require('./services/inMemory/NotesService');
+const NotesValidator = require('./validator/notes');
 
 const init = async () => {
   const notesService = new NotesService();
