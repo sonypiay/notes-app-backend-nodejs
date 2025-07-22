@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
 const {nanoid} = require("nanoid");
 const InvariantError = require("../../exceptions/InvariantError");
-const {mapDBToModel} = require("../../utils");
 const NotFoundError = require("../../exceptions/NotFoundError");
 
 class NotesService {
@@ -30,7 +29,7 @@ class NotesService {
 
     async getNotes() {
         const query = {
-            text: `SELECT * FROM notes`
+            text: `SELECT * FROM notes ORDER BY created_at DESC LIMIT 50`
         }
 
         const result = await this._pool.query(query);
