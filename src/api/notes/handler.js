@@ -14,7 +14,7 @@ class NotesHandler {
 
     async postNoteHandler(request, h) {
         this._validator.validatePayload(request.payload);
-        const { title = "untitled", body, tags } = request.payload;
+        const { title, body, tags } = request.payload;
 
         const noteId = await this._service.addNote({ title, body, tags });
 

@@ -4,7 +4,8 @@ const Hapi = require('@hapi/hapi');
 const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const notes = require('./api/notes');
-const NotesService = require('./services/InMemory/NotesService');
+const NotesService = require('./services/postgres/NotesService');
+// const NotesService = require('./services/InMemory/NotesService');
 const NotesValidator = require('./validator/notes');
 const ClientError = require("./exceptions/ClientError");
 
@@ -25,6 +26,7 @@ const init = async () => {
         plugin: notes,
         options: {
             service: notesService,
+            validator: NotesValidator,
         },
     });
 
@@ -62,7 +64,13 @@ const init = async () => {
         }
 
         return h.continue;
-    })
+    });
+
+    server.events.on('request', (request, event, tags) => {
+        if( tags.error ) {
+            console.error(`Request error: ${event.error ? event.error.message : 'unknown'}`);
+        }
+    });
 
     await server.start();
     console.log('Server running on %s', server.info.uri);
